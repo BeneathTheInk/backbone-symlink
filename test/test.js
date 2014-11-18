@@ -53,4 +53,19 @@ describe("Backbone Links", function() {
 		expect(main.getLink("foo").valid).to.equal(true);
 	});
 
+	it("announces when a delayed model arrives", function(done) {
+		var model1 = new Backbone.Model({ foo: "2", id: "1" }),
+			model2 = new Backbone.Model({ id: "2" }),
+			col = new Backbone.Collection();
+
+		model1.link("foo", col);
+
+		model1.onArrival("foo", function(v) {
+			expect(v).to.equal(model2);
+			done();
+		});
+
+		col.add(model2);
+	});
+
 });
