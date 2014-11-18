@@ -40,6 +40,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-wrap2000');
 
 	grunt.registerTask('build', [ 'clean', 'copy', 'wrap2000', 'uglify' ]);
+	grunt.registerTask('dev', [ 'build', 'watch' ]);
 
 	grunt.registerTask('default', [ 'build' ]);
 
