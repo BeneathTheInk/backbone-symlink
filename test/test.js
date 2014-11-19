@@ -53,6 +53,15 @@ describe("Single Model Symlinks", function() {
 		col.add(model2);
 	});
 
+	it("toJSON does not include modes, only the id", function() {
+		var model1 = new Backbone.Model({ foo: "2", id: "1" }),
+			model2 = new Backbone.Model({ id: "2" }),
+			col = new Backbone.Collection([ model2 ]);
+
+		model1.symlink("foo", col);
+		expect(model1.toJSON()).to.deep.equal({ foo: model2.id, id: model1.id });
+	});
+
 });
 
 describe("Multiple Model Symlinks", function() {
