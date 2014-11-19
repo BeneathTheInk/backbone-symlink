@@ -1,6 +1,22 @@
 {
 	"name": "backbone-symlink",
 	"version": "0.1.0",
+	"description": "Simple symbolic references with Backbone Models.",
+	"author": "Beneath the Ink <info@beneaththeink.com>",
+	"contributors": [
+		{
+			"name": "Tyler Johnson",
+			"email": "tyler@beneaththeink.com",
+			"url": "http://github.com/tyler-johnson"
+		}
+	],
+	"publishConfig": {
+		"registry": "http://registry.npmjs.org"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/BeneathTheInk/backbone-symlink.git"
+	},
 	"main": "./dist/backbone-symlink.js",
 	"devDependencies": {
 		"grunt": "^0.4.5",
@@ -9,5 +25,15 @@
 		"grunt-contrib-uglify": "^0.6.0",
 		"grunt-contrib-watch": "^0.6.1",
 		"grunt-wrap2000": "^0.1.0"
-	}
+	},
+	"license": "MIT",
+	"keywords": [
+		"backbone",
+		"model",
+		"collection",
+		"symbolic",
+		"reference",
+		"symlink",
+		"pointer"
+	]
 }
