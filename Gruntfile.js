@@ -5,23 +5,23 @@ module.exports = function(grunt) {
 		clean: [ "dist/*.js" ],
 		copy: {
 			main: {
-				src: "lib/backbone-links.js",
-				dest: "dist/backbone-links.js"
+				src: "lib/backbone-symlink.js",
+				dest: "dist/backbone-symlink.js"
 			}
 		},
 		wrap2000: {
 			main: {
-				src: 'dist/backbone-links.js',
-				dest: 'dist/backbone-links.js',
+				src: 'dist/backbone-symlink.js',
+				dest: 'dist/backbone-symlink.js',
 				options: {
-					header: "/*\n * Backbone Links\n * Depends on Backbone and Underscore\n * Licensed under MIT; Copyright (c) 2014 Beneath the Ink, Inc.\n * Version <%= pkg.version %>\n */\n"
+					header: "/*\n * Backbone Symlink\n * Depends on Backbone and Underscore\n * Licensed under MIT; Copyright (c) 2014 Beneath the Ink, Inc.\n * Version <%= pkg.version %>\n */\n"
 				}
 			}
 		},
 		uglify: {
 			main: {
-				src: "dist/backbone-links.js",
-				dest: "dist/backbone-links.min.js"
+				src: "dist/backbone-symlink.js",
+				dest: "dist/backbone-symlink.min.js"
 			}
 		},
 		watch: {

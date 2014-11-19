@@ -5,7 +5,7 @@ describe("Single Model Symlinks", function() {
 			model2 = new Backbone.Model({ id: "2" }),
 			col = new Backbone.Collection([ model2 ]);
 
-		model1.link("foo", col);
+		model1.symlink("foo", col);
 		expect(model1.get("foo")).to.equal(model2);
 	});
 
@@ -14,13 +14,13 @@ describe("Single Model Symlinks", function() {
 			model2 = new Backbone.Model({ id: "2" }),
 			col = new Backbone.Collection();
 
-		model1.link("foo", col);
+		model1.symlink("foo", col);
 		expect(model1.get("foo")).to.equal(null);
-		expect(model1.getLink("foo").valid).to.equal(false);
+		expect(model1.getSymlink("foo").valid).to.equal(false);
 
 		col.add(model2);
 		expect(model1.get("foo")).to.equal(model2);
-		expect(model1.getLink("foo").valid).to.equal(true);
+		expect(model1.getSymlink("foo").valid).to.equal(true);
 	});
 
 	it("unlinks", function() {
@@ -28,7 +28,7 @@ describe("Single Model Symlinks", function() {
 			model2 = new Backbone.Model({ id: "2" }),
 			col = new Backbone.Collection([ model2 ]);
 
-		model1.link("foo", col);
+		model1.symlink("foo", col);
 		expect(model1.get("foo")).to.equal(model2);
 
 		model1.unlink("foo");
@@ -40,13 +40,13 @@ describe("Single Model Symlinks", function() {
 			model2 = new Backbone.Model({ id: "2" }),
 			col = new Backbone.Collection();
 
-		model1.link("foo", col);
+		model1.symlink("foo", col);
 		expect(model1.get("foo")).to.equal(null);
-		expect(model1.getLink("foo").valid).to.equal(false);
+		expect(model1.getSymlink("foo").valid).to.equal(false);
 
-		model1.onArrival("foo", function(v, link) {
+		model1.onArrival("foo", function(v, symlink) {
 			expect(v).to.equal(model2);
-			expect(link.valid).to.equal(true);
+			expect(symlink.valid).to.equal(true);
 			done();
 		});
 
@@ -64,7 +64,7 @@ describe("Multiple Model Symlinks", function() {
 			sub3 = new Backbone.Model({ id: "4" }),
 			col = new Backbone.Collection([ sub1, sub2, sub3 ]);
 
-		main.link("foo", col);
+		main.symlink("foo", col);
 		expect(main.get("foo")).to.be.instanceof(Backbone.Collection);
 		expect(main.get("foo").toArray()).to.deep.equal([ sub1, sub3 ]);
 	});
@@ -76,15 +76,15 @@ describe("Multiple Model Symlinks", function() {
 			sub3 = new Backbone.Model({ id: "4" }),
 			col = new Backbone.Collection([ sub3 ]);
 
-		main.link("foo", col);
+		main.symlink("foo", col);
 		expect(main.get("foo")).to.be.instanceof(Backbone.Collection);
 		expect(main.get("foo").toArray()).to.deep.equal([ sub3 ]);
-		expect(main.getLink("foo").valid).to.equal(false);
+		expect(main.getSymlink("foo").valid).to.equal(false);
 
 		col.add([ sub2, sub1 ]);
 		expect(main.get("foo")).to.be.instanceof(Backbone.Collection);
 		expect(main.get("foo").toArray()).to.deep.equal([ sub1, sub3 ]);
-		expect(main.getLink("foo").valid).to.equal(true);
+		expect(main.getSymlink("foo").valid).to.equal(true);
 	});
 
 	it("unlinks", function() {
@@ -94,10 +94,10 @@ describe("Multiple Model Symlinks", function() {
 			sub3 = new Backbone.Model({ id: "4" }),
 			col = new Backbone.Collection([ sub1, sub3 ]);
 
-		main.link("foo", col);
+		main.symlink("foo", col);
 		expect(main.get("foo")).to.be.instanceof(Backbone.Collection);
 		expect(main.get("foo").toArray()).to.deep.equal([ sub1, sub3 ]);
-		expect(main.getLink("foo").valid).to.equal(false);
+		expect(main.getSymlink("foo").valid).to.equal(false);
 
 		main.unlink("foo");
 		expect(main.get("foo")).to.deep.equal([ "2", "3", "4" ]);
