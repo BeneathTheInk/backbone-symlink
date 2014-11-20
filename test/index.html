@@ -18,6 +18,9 @@
 		<script type="text/javascript">
 			window.expect = chai.expect;
 			mocha.setup('bdd');
+
+			// set up symlinks
+			Symlink.configure(Backbone.Model);
 		</script>
 
 		<script type="text/javascript" src="./test.js"></script>
