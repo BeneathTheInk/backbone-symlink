@@ -52,7 +52,7 @@ describe("Single Model Symlinks", function() {
 		col.add(model2);
 	});
 
-	it("toJSON does not include modes, only the id", function() {
+	it("toJSON does not include model, only the id", function() {
 		col.add(model2);
 		model1.symlink("foo", col);
 		expect(model1.toJSON()).to.deep.equal({ foo: model2.id, id: model1.id });
