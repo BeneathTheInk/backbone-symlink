@@ -1,3 +1,9 @@
+var Backbone = require("backbone"),
+	Symlink = require("../"),
+	expect = require("chai").expect;
+
+Symlink.configure(Backbone.Model);
+
 describe("Single Model Symlinks", function() {
 	var model1, model2, col;
 

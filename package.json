@@ -13,18 +13,28 @@
 	"publishConfig": {
 		"registry": "http://registry.npmjs.org"
 	},
+	"scripts": {
+		"dev": "node test/browser",
+		"test": "grunt && ./node_modules/.bin/mocha test"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/BeneathTheInk/backbone-symlink.git"
 	},
-	"main": "./dist/backbone-symlink.js",
+	"main": "./lib/backbone-symlink.js",
 	"devDependencies": {
+		"backbone": "^1.1.2",
+		"chai": "^1.10.0",
 		"grunt": "^0.4.5",
+		"grunt-browserify": "^3.2.1",
 		"grunt-contrib-clean": "^0.6.0",
 		"grunt-contrib-copy": "^0.7.0",
 		"grunt-contrib-uglify": "^0.6.0",
 		"grunt-contrib-watch": "^0.6.1",
-		"grunt-wrap2000": "^0.1.0"
+		"grunt-wrap2000": "^0.1.0",
+		"minimist": "^1.1.0",
+		"mocha": "^2.1.0",
+		"underscore": "^1.7.0"
 	},
 	"license": "MIT",
 	"keywords": [
