@@ -1,6 +1,6 @@
 {
 	"name": "backbone-symlink",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "Simple symbolic references with Backbone Models.",
 	"author": "Beneath the Ink <info@beneaththeink.com>",
 	"contributors": [
