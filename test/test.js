@@ -130,4 +130,24 @@ describe("Multiple Model Symlinks", function() {
 		expect(main.deref("foo")).to.deep.equal([ sub1.id ]);
 	});
 
+	it("resets array after symlink is valid, but before new models arrive", function() {
+		// set up symlink first, so it's valid and blank
+		main.symlink("foo", col);
+		expect(main.get("foo")).to.be.instanceof(Backbone.Collection);
+		expect(main.get("foo").length).to.equal(0);
+		expect(main.getSymlink("foo").valid).to.equal(true);
+
+		// add the model id to the symlink before model is in collection
+		main.set("foo", [ sub1.id ]);
+		expect(main.deref("foo")).to.deep.equal([ sub1.id ]);
+		expect(main.get("foo").toArray()).to.deep.equal([]);
+		expect(main.getSymlink("foo").valid).to.equal(false);
+
+		// finally add the model to the collection
+		col.add([ sub1 ]);
+		expect(main.deref("foo")).to.deep.equal([ sub1.id ]);
+		expect(main.get("foo").toArray()).to.deep.equal([ sub1 ]);
+		expect(main.getSymlink("foo").valid).to.equal(true);
+	});
+
 });
