@@ -150,4 +150,18 @@ describe("Multiple Model Symlinks", function() {
 		expect(main.getSymlink("foo").valid).to.equal(true);
 	});
 
+	it("adds models to symbolic collection", function() {
+		col.add([ sub1, sub2, sub3 ]);
+		main.set("foo", [ sub1.id ]);
+		main.symlink("foo", col);
+
+		expect(main.get("foo").toArray()).to.deep.equal([ sub1 ], "correct symbolic order, before add");
+		expect(main.deref("foo")).to.deep.equal([ sub1.id ], "correct ID order, before add");
+
+		main.get("foo").add([ sub2, sub3 ]);
+
+		expect(main.get("foo").toArray()).to.deep.equal([ sub1, sub2, sub3 ], "correct symbolic order, after add");
+		expect(main.deref("foo")).to.deep.equal([ sub1.id, sub2.id, sub3.id ], "correct ID order, after add");
+	});
+
 });
