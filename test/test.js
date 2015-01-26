@@ -130,6 +130,25 @@ describe("Multiple Model Symlinks", function() {
 		expect(main.deref("foo")).to.deep.equal([ sub1.id ]);
 	});
 
+	it("resets symbolic collection content on `model.set()`", function() {
+		main.set("foo", [ sub1.id ]);
+		col.add([ sub1, sub2, sub3 ]);
+		main.symlink("foo", col);
+		var seen = false;
+
+		var symcol = main.get("foo");
+		symcol.once("reset", function() {
+			expect(symcol.toArray()).to.deep.equal([ sub2, sub3 ]);
+			seen = true;
+		});
+
+		main.set("foo", [ sub2.id, sub3.id ]);
+		expect(seen).to.equal(true, "reset symbolic collection");
+		expect(main.get("foo")).to.equal(symcol);
+		expect(main.deref("foo")).to.deep.equal([ sub2.id, sub3.id ]);
+		expect(main.getSymlink("foo").valid).to.equal(true);
+	});
+
 	it("resets array after symlink is valid, but before new models arrive", function() {
 		// set up symlink first, so it's valid and blank
 		main.symlink("foo", col);
