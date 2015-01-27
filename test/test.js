@@ -4,7 +4,7 @@ var Backbone = require("backbone"),
 
 Symlink.configure(Backbone.Model);
 
-describe("Single Model Symlinks", function() {
+describe("Symbolic Models", function() {
 	var model1, model2, col;
 
 	beforeEach(function() {
@@ -19,9 +19,17 @@ describe("Single Model Symlinks", function() {
 	});
 
 	it("basic symlink", function() {
+		var seen = false;
 		col.add(model2);
+
+		model2.once("reference:add", function(symlink) {
+			expect(symlink).to.equal(model1.getSymlink("foo"));
+			seen = true;
+		});
+
 		model1.symlink("foo", col);
 		expect(model1.get("foo")).to.equal(model2);
+		expect(seen).to.equal(true);
 	});
 
 	it("symlinks to model before model is in collection", function() {
@@ -35,13 +43,21 @@ describe("Single Model Symlinks", function() {
 	});
 
 	it("unlinks", function() {
+		var seen, symlink;
+
 		col.add(model2);
 
-		model1.symlink("foo", col);
+		model2.once("reference:remove", function(sl) {
+			expect(sl).to.equal(symlink);
+			seen = true;
+		});
+
+		symlink = model1.symlink("foo", col);
 		expect(model1.get("foo")).to.equal(model2);
 
 		model1.unlink("foo");
 		expect(model1.get("foo")).to.equal("2");
+		expect(seen).to.equal(true);
 	});
 
 	it("announces when a delayed model arrives", function(done) {
@@ -66,7 +82,7 @@ describe("Single Model Symlinks", function() {
 
 });
 
-describe("Multiple Model Symlinks", function() {
+describe("Symbolic Collections", function() {
 	var main, sub1, sub2, sub3, col;
 
 	beforeEach(function() {
