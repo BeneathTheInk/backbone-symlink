@@ -3,19 +3,20 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		clean: [ "dist/*.js" ],
+		copy: {
+			dist: {
+				src: "lib/backbone-symlink.js",
+				dest: "dist/backbone-symlink.js"
+			}
+		},
 		browserify: {
 			test: {
 				src: "test/*.js",
 				dest: "dist/backbone-symlink.test.js",
 				options: {
-					browserifyOptions: { debug: true, require: [  ] }
+					external: [ "jquery" ],
+					browserifyOptions: { debug: true }
 				}
-			}
-		},
-		copy: {
-			dist: {
-				src: "lib/backbone-symlink.js",
-				dest: "dist/backbone-symlink.js"
 			}
 		},
 		wrap2000: {
@@ -23,14 +24,21 @@ module.exports = function(grunt) {
 				src: 'dist/backbone-symlink.js',
 				dest: 'dist/backbone-symlink.js',
 				options: {
-					header: "/*\n * Backbone Symlink\n * Depends on Backbone and Underscore\n * Licensed under MIT; Copyright (c) 2014 Beneath the Ink, Inc.\n * Version <%= pkg.version %>\n */\n"
+					header: "/*\n * Backbone Symlink\n * Depends on Backbone and Underscore\n * (c) 2015 Beneath the Ink, Inc.\n * MIT License\n * Version <%= pkg.version %>\n */\n"
+				}
+			},
+			dev: {
+				src: 'dist/backbone-symlink.dev.js',
+				dest: 'dist/backbone-symlink.dev.js',
+				options: {
+					header: "/* Backbone Symlink / (c) 2015 Beneath the Ink, Inc. / MIT License / Version <%= pkg.version %> */"
 				}
 			},
 			test: {
-				src: 'dist/book-core.test.js',
-				dest: 'dist/book-core.test.js',
+				src: 'dist/backbone-symlink.test.js',
+				dest: 'dist/backbone-symlink.test.js',
 				options: {
-					header: "/* BTI Book Core Tests / (c) 2014 Beneath the Ink, Inc. / MIT License / Version <%= pkg.version %> */"
+					header: "/* Backbone Symlink Tests / (c) 2015 Beneath the Ink, Inc. / MIT License / Version <%= pkg.version %> */"
 				}
 			}
 		},
@@ -43,28 +51,25 @@ module.exports = function(grunt) {
 		watch: {
 			test: {
 				files: [ "lib/**/*", "test/*.js" ],
-				tasks: [ 'build-test' ],
+				tasks: [ 'test' ],
 				options: { spawn: false }
 			}
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-wrap2000');
 
-	grunt.registerTask('compile-test', [ 'browserify:test', 'wrap2000:test' ]);
-	grunt.registerTask('compile-dist', [ 'copy:dist', 'wrap2000:dist', 'uglify:dist' ]);
+	grunt.registerTask('build-test', [ 'browserify:test', 'wrap2000:test' ]);
+	grunt.registerTask('build-dist', [ 'copy:dist', 'wrap2000:dist', 'uglify:dist' ]);
 
-	grunt.registerTask('build-test', [ 'clean', 'compile-test' ]);
-	grunt.registerTask('build-dist', [ 'clean', 'compile-dist' ]);
+	grunt.registerTask('test', [ 'clean', 'build-test' ]);
+	grunt.registerTask('dist', [ 'clean', 'build-dist'  ]);
 
-	grunt.registerTask('test', [ 'build-test', 'watch:test' ]);
-	grunt.registerTask('dist', [ 'build-dist'  ]);
-
-	grunt.registerTask('default', [ 'clean', 'compile-dist' ]);
+	grunt.registerTask('default', [ 'clean', 'build-dist' ]);
 
 }
